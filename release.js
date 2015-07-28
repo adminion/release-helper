@@ -21,7 +21,6 @@ var VERSION_MAJOR = parseInt(VERSION_SPLIT[0]);
 var VERSION_MINOR = parseInt(VERSION_SPLIT[1]);
 var VERSION_PATCH = parseInt(VERSION_SPLIT[2]);
 
-
 var branch, release;
 
 function logError (error) {
@@ -36,12 +35,15 @@ executeCommand('git branch', function (err, gitBranchOutput) {
 
   branch = gitBranchOutput.match(currentBranchPattern)[0].split(' ')[1];
 
+
+
   switch (RELEASE_TYPE) {
     case "major": 
       if (branch !== 'master') {
         logError(new Error('Major releases must be cut from master!'));
         process.exit(1);
       } 
+      majorRelease();
       break;  
 
     case "minor": 
@@ -49,6 +51,7 @@ executeCommand('git branch', function (err, gitBranchOutput) {
         logError(new Error('Minor releases must be cut from a major-version branch!'));
         process.exit(1);
       }
+      minorRelease();
       break;
 
     case "patch": 
@@ -57,7 +60,7 @@ executeCommand('git branch', function (err, gitBranchOutput) {
         logError(new Error('Patch releases must be cut from a major-version branch!'));
         process.exit(1);
       } 
-
+      patchRelease();
       break;
 
     default: 
