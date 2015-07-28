@@ -3,6 +3,8 @@ var child_process = require('child_process');
 var fs = require('fs');
 var util = require('util');
 
+var REMOTE_REPO = 'adminion';
+
 var currentBranchPattern = /^\* (.)+$/gm;
 var majorBranchPattern = /v[0-9].x/gm;
 
@@ -86,23 +88,23 @@ function majorRelease () {
     util.format('changes=`changelog-maker` && sed -i "4i # %s\n\n## %s\n$changes\n" CHANGES.md', branch, release),
     'rm -f ../node_modules/',
     'npm install',
-    'npm test',
-    'npm run coverage',
-    'npm run docs',
+    // 'npm test',
+    // 'npm run coverage',
+    // 'npm run docs',
     'git commit -a -m "release ' + release + '"',
     'git checkout master',
     'git merge release-' + release,
     'git tag ' + release,
     'git branch ' + branch,
-    'git push adminion ' + release + ' ' + branch,
-    'npm publish',
+    util.format('git push %s %s %s', REMOTE_REPO, release, branch),
+    // 'npm publish',
     'npm --no-git-tag-version version major',
-    'git commit -a -m "working on ' + workingOn
+    'git commit -a -m "working on ' + workingOn + '"'
   ];
 
-  commands.forEach(function (command) {
-    console.log(command);
-  })
+  // commands.forEach(function (command) {
+  //   console.log(command);
+  // })
 
   if (!FLAG_OUTPUT_ONLY) {
     async.each(commands, executeCommand, commandsExecuted);
@@ -130,14 +132,14 @@ function minorRelease () {
     'git merge release-' + release,
     'git tag ' + release,
     'git push adminion ' + release + ' ' + branch,
-    'npm publish',
+    // 'npm publish',
     'npm --no-git-tag-version version minor',
-    'git commit -a -m "working on ' + workingOn
+    'git commit -a -m "working on ' + workingOn + '"'
   ];
 
-  commands.forEach(function (command) {
-    console.log(command);
-  })
+  // commands.forEach(function (command) {
+  //   console.log(command);
+  // })
 
   if (!FLAG_OUTPUT_ONLY) {
     async.each(commands, executeCommand, commandsExecuted);
@@ -165,14 +167,14 @@ function patchRelease () {
     'git merge release-' + release,
     'git tag ' + release,
     'git push adminion ' + release + ' ' + branch,
-    'npm publish',
+    // 'npm publish',
     'npm --no-git-tag-version version patch',
-    'git commit -a -m "working on ' + workingOn
+    'git commit -a -m "working on ' + workingOn + '"'
   ];
 
-  commands.forEach(function (command) {
-    console.log(command);
-  })
+  // commands.forEach(function (command) {
+  //   console.log(command);
+  // })
 
   if (!FLAG_OUTPUT_ONLY) {
     async.each(commands, executeCommand, commandsExecuted);
@@ -181,6 +183,8 @@ function patchRelease () {
 }
 
 function executeCommand (command, done) {
+
+  console.log('executing command: ' + command);
 
   var child = child_process.exec(command);
 

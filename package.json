@@ -5,7 +5,7 @@
   "main": "release.js",
   "bin": "./release.js",
   "scripts": {
-    "test": "node release.js"
+    "test": ".bin/test.sh"
   },
   "repository": {
     "type": "git",
