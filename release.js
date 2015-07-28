@@ -155,7 +155,7 @@ function patchRelease () {
 
   var commands = [ 
     'git checkout -b release-' + release,
-    util.format('changes=`changelog-maker` && sed -i "6i ## %s\n$changes\n" CHANGES.md', release),
+    util.format('changes=`changelog-maker` && sed -i "6i ## %s\\n$changes\\n" CHANGES.md', release),
     'rm -rf ./node_modules/',
     'npm install',
     'npm test',
