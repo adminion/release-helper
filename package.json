@@ -1,0 +1,36 @@
+{
+  "name": "release-helper",
+  "version": "0.0.0",
+  "description": "A tool that assists in development based on master and major version stable release branches",
+  "main": "release.js",
+  "bin": "./release.js",
+  "scripts": {
+    "test": "node release.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adminion/release-helper.git"
+  },
+  "keywords": [
+    "release",
+    "build",
+    "helper",
+    "semver",
+    "script",
+    "tool",
+    "util",
+    "utility"
+  ],
+  "author": "Jeff Harris",
+  "license": {
+    "type": "BSD-3-Clause",
+    "file": "LICENSE"
+  },
+  "bugs": {
+    "url": "https://github.com/adminion/release-helper/issues"
+  },
+  "homepage": "https://github.com/adminion/release-helper#readme",
+  "dependencies": {
+    "async": "^1.4.0"
+  }
+}
