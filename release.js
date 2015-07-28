@@ -84,7 +84,7 @@ function majorRelease () {
 
   var commands = [ 
     'git checkout -b release-' + release,
-    util.format("changes=`changelog-maker` | sed -i '4i # %s\n\n## %s\n'${changes}'\n' CHANGES.md", branch, release),
+    util.format('changes=`changelog-maker`; sed -i "4i # %s\n\n## %s\n${changes}\n" CHANGES.md', branch, release),
     'rm -rf ./node_modules/',
     'npm install',
     // 'npm test',
