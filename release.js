@@ -148,22 +148,18 @@ function patchRelease () {
 }
 
 function executeBatch (commands) {
-
-  if (FLAG_OUTPUT_ONLY) {
-    commands.forEach(function (command) {
+  commands.forEach(function (command) {
+    if (FLAG_OUTPUT_ONLY) { 
       console.log(command);
-    })
-  } else {
-    console.log('Building release ' + release);
-    async.each(commands, executeCommand, function commandsExecuted (err) {
-      if (err) {
-        console.error(err);
-        process.exit(1);
-      } 
-
-      console.log('release %s build complete.', release);
-    });
-  }
+    } else {
+      console.log('Building release ' + release);
+      
+      var output = child_process.execSync(command);
+      console.log(output);
+    }
+  });
+  
+  console.log('release %s build complete.', release);
 }
 
 function executeCommand (command, done) {
