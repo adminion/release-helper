@@ -201,7 +201,7 @@ function executeCommand (command, done) {
 
   child.on('close', function close (code) {
     if (code !== 0) {
-      done (new Error('child closed with code '+code));
+      done (new Error('"' + command + '" closed with code '+code));
     } else {
       done(null, output);
     }
