@@ -86,7 +86,7 @@ function majorRelease () {
   var commands = [ 
     'git checkout -b release-' + release,
     util.format('changes=`changelog-maker` && sed -i "4i # %s\n\n## %s\n$changes\n" CHANGES.md', branch, release),
-    'rm -f ../node_modules/',
+    'rm -rf ../node_modules/',
     'npm install',
     // 'npm test',
     // 'npm run coverage',
@@ -122,7 +122,7 @@ function minorRelease () {
     'git checkout -b release-' + release,
     'npm --no-git-tag-version version minor',
     util.format('changes=`changelog-maker` && sed -i "6i ## %s\n$changes\n" CHANGES.md', release),
-    'rm -f ../node_modules/',
+    'rm -rf ../node_modules/',
     'npm install',
     'npm test',
     'npm run coverage',
@@ -157,7 +157,7 @@ function patchRelease () {
   var commands = [ 
     'git checkout -b release-' + release,
     util.format('changes=`changelog-maker` && sed -i "6i ## %s\n$changes\n" CHANGES.md', release),
-    'rm -f ../node_modules/',
+    'rm -rf ../node_modules/',
     'npm install',
     'npm test',
     'npm run coverage',
