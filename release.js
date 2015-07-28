@@ -197,8 +197,7 @@ function executeCommand (command, done) {
 
   child.stderr.on('data', function stderr (data) {
     console.log('stderr: ' + data);
-    var err = new Error('error spawning: ', command);
-    console.log(err.message);
+    output += data;
     done(err);
   });
 
