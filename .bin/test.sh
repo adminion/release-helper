@@ -1,4 +1,4 @@
-rm -rf tmp/
+rm -rf `pwd`/tmp/
 git clone . tmp/
 cd tmp/
 git remote add adminion git@github.com:adminion/release-helper.git

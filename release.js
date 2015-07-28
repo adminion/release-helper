@@ -95,7 +95,7 @@ function majorRelease () {
     'git merge release-' + release,
     'git tag ' + release,
     'git branch ' + branch,
-    util.format('git push %s %s %s', REMOTE_REPO, release, branch),
+    // util.format('git push %s %s %s', REMOTE_REPO, release, branch),
     // 'npm publish',
     'npm --no-git-tag-version version major',
     'git commit -a -m "working on ' + workingOn + '"'
@@ -130,7 +130,7 @@ function minorRelease () {
     'git checkout ' + branch,
     'git merge release-' + release,
     'git tag ' + release,
-    'git push adminion ' + release + ' ' + branch,
+    // util.format('git push %s %s %s', REMOTE_REPO, release, branch),
     // 'npm publish',
     'npm --no-git-tag-version version minor',
     'git commit -a -m "working on ' + workingOn + '"'
@@ -165,7 +165,7 @@ function patchRelease () {
     'git checkout ' + branch,
     'git merge release-' + release,
     'git tag ' + release,
-    'git push adminion ' + release + ' ' + branch,
+    // util.format('git push %s %s %s', REMOTE_REPO, release, branch),
     // 'npm publish',
     'npm --no-git-tag-version version patch',
     'git commit -a -m "working on ' + workingOn + '"'
