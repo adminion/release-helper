@@ -37,8 +37,6 @@ executeCommand('git branch', function (err, gitBranchOutput) {
 
   branch = gitBranchOutput.match(currentBranchPattern)[0].split(' ')[1];
 
-
-
   switch (RELEASE_TYPE) {
     case "major": 
       if (branch !== 'master') {
@@ -80,6 +78,7 @@ function majorRelease () {
 
   var release  = "v" + VERSION;
   var workingOn = util.format('v%s.0.0', VERSION_MAJOR +1);
+  branch = "v" + VERSION_MAJOR + ".x";
 
   console.log("Building release ", release );
 
