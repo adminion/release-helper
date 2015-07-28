@@ -198,7 +198,6 @@ function executeCommand (command, done) {
   child.stderr.on('data', function stderr (data) {
     console.log('stderr: ' + data);
     output += data;
-    done(err);
   });
 
   child.on('close', function close (code) {
