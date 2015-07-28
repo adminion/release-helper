@@ -23,7 +23,7 @@ var VERSION_MAJOR = parseInt(VERSION_SPLIT[0]);
 var VERSION_MINOR = parseInt(VERSION_SPLIT[1]);
 var VERSION_PATCH = parseInt(VERSION_SPLIT[2]);
 
-var branch, release;
+var branch, release, workingOn;
 
 function logError (error) {
   console.log(SCRIPT_NAME + ': Error: ' + error.message);
@@ -69,20 +69,16 @@ executeCommand('git branch', function (err, gitBranchOutput) {
       break;
   }
 
-
-
 });
 
 
 function majorRelease () {
 
-  var release  = "v" + VERSION;
-  var workingOn = util.format('v%s.0.0', VERSION_MAJOR +1);
+  release  = "v" + VERSION;
+  workingOn = util.format('v%s.0.0', VERSION_MAJOR +1);
   branch = "v" + VERSION_MAJOR + ".x";
 
-  console.log("Building release ", release );
-
-  var commands = [ 
+  executeBatch([ 
     'git checkout -b release-' + release,
     util.format('changes=`changelog-maker`; sed -i "4i # %s\n\n## %s\n${changes}\n" CHANGES.md', branch, release),
     'npm install',
@@ -98,28 +94,19 @@ function majorRelease () {
     // 'npm publish',
     'npm --no-git-tag-version version major',
     'git commit -a -m "working on ' + workingOn + '"'
-  ];
-
-  // commands.forEach(function (command) {
-  //   console.log(command);
-  // })
-
-  if (!FLAG_OUTPUT_ONLY) {
-    async.each(commands, executeCommand, commandsExecuted);
-  } 
+  ]);
+  
 }
 
 function minorRelease () {
 
-  var release  = util.format('v%s.%s.0', VERSION_MAJOR, VERSION_MINOR + 1);
-  var workingOn = util.format('v%s.%s.1', VERSION_MAJOR, VERSION_MINOR + 1);
+  release  = util.format('v%s.%s.0', VERSION_MAJOR, VERSION_MINOR + 1);
+  workingOn = util.format('v%s.%s.1', VERSION_MAJOR, VERSION_MINOR + 1);
   
-  console.log("Building release ", release );
-
-  var commands = [ 
+  executeBatch([ 
     'git checkout -b release-' + release,
     'npm --no-git-tag-version version minor',
-    util.format('changes=`changelog-maker` && sed -i "6i ## %s\n$changes\n" CHANGES.md', release),
+    util.format('changes=`changelog-maker`; sed -i "6i ## %s\n${changes}\n" CHANGES.md', release),
     'npm install',
     'npm test',
     'npm run coverage',
@@ -132,28 +119,18 @@ function minorRelease () {
     // 'npm publish',
     'npm --no-git-tag-version version minor',
     'git commit -a -m "working on ' + workingOn + '"'
-  ];
-
-  // commands.forEach(function (command) {
-  //   console.log(command);
-  // })
-
-  if (!FLAG_OUTPUT_ONLY) {
-    async.each(commands, executeCommand, commandsExecuted);
-  } 
+  ]);
 
 }
 
 function patchRelease () {
 
-  var release = 'v' + VERSION;
-  var workingOn = util.format('v%s.%s.%s', VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH + 1);
+  release = 'v' + VERSION;
+  workingOn = util.format('v%s.%s.%s', VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH + 1);
 
-  console.log("Building release ", release );
-
-  var commands = [ 
+  executeBatch([ 
     'git checkout -b release-' + release,
-    util.format('changes=`changelog-maker` && sed -i "6i ## %s\n$changes\n" CHANGES.md', release),
+    util.format('changes=`changelog-maker`; sed -i "6i ## %s\n${changes}\n" CHANGES.md', release),
     'npm install',
     'npm test',
     'npm run coverage',
@@ -166,16 +143,27 @@ function patchRelease () {
     // 'npm publish',
     'npm --no-git-tag-version version patch',
     'git commit -a -m "working on ' + workingOn + '"'
-  ];
+  ]);
 
-  // commands.forEach(function (command) {
-  //   console.log(command);
-  // })
+}
 
-  if (!FLAG_OUTPUT_ONLY) {
-    async.each(commands, executeCommand, commandsExecuted);
-  } 
+function executeBatch (commands) {
 
+  if (FLAG_OUTPUT_ONLY) {
+    commands.forEach(function (command) {
+      console.log(command);
+    })
+  } else {
+    console.log('Building release ' + release);
+    async.each(commands, executeCommand, function commandsExecuted (err) {
+      if (err) {
+        console.error(err);
+        process.exit(1);
+      } 
+
+      console.log('release %s build complete.', release);
+    });
+  }
 }
 
 function executeCommand (command, done) {
@@ -203,13 +191,4 @@ function executeCommand (command, done) {
       done(null, output);
     }
   });
-}
-
-function commandsExecuted (err) {
-  if (err) {
-      console.error(err);
-      process.exit(1);
-  } 
-
-  console.log('release build complete.');
 }
