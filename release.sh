@@ -1,6 +1,5 @@
 #!/bin/bash
 
-SCRIPT="$0"
 VERSION=`node -e "console.log(require('./package').version);"`
 
 IFS=. read MAJOR MINOR PATCH <<< "${VERSION}"
