@@ -1,6 +1,6 @@
 {
   "name": "release-helper",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A tool that assists in development based on master and major version stable release branches",
   "main": "release.js",
   "bin": "./release.js",
