@@ -60,7 +60,7 @@ major_release() {
   git branch -d release-$RELEASE
   git tag $RELEASE
   git branch $BRANCH
-  # git push $OPTION_REMOTE_REPO $RELEASE $BRANCH
+  git push $OPTION_REMOTE_REPO $RELEASE $BRANCH
   # npm publish
   npm --no-git-tag-version version major
   git commit -a -m "working on ${WORKING_ON}"
@@ -124,7 +124,7 @@ patch_release() {
   git merge release-$RELEASE
   git branch -d release-$RELEASE
   git tag $RELEASE
-  # git push $OPTION_REMOTE_REPO $RELEASE $BRANCH
+  git push $OPTION_REMOTE_REPO $RELEASE $BRANCH
   # npm publish
   npm --no-git-tag-version version patch
   git commit -a -m "working on ${WORKING_ON}"
