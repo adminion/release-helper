@@ -40,6 +40,8 @@ major_release() {
   BRANCH="v${MAJOR}.x"
   WORKING_ON="v`expr ${MAJOR} + 1`.0.0"
 
+  echo "Building release ${RELEASE}..."
+
   if $OPTION_VERBOSE 
     then
       echo "RELEASE: ${RELEASE}"
@@ -58,7 +60,7 @@ major_release() {
   git merge release-$RELEASE
   git tag $RELEASE
   git branch $BRANCH
-  # git push $OPTION_REMOTE_REPO $RELEASE, $BRANCH
+  # git push $OPTION_REMOTE_REPO $RELEASE $BRANCH
   # npm publish
   npm --no-git-tag-version version major
   git commit -a -m "working on ${WORKING_ON}"
@@ -69,6 +71,8 @@ minor_release() {
   BRANCH="v${MAJOR}.x"
   WORKING_ON="V$MAJOR.`expr $MINOR + 1`.1"
 
+  echo "Building release ${RELEASE}..."
+
   if $OPTION_VERBOSE 
     then
     echo "RELEASE: ${RELEASE}"
@@ -76,6 +80,21 @@ minor_release() {
     echo "'WORKING_ON': ${WORKING_ON}"
   fi
 
+  git checkout -b release-$RELEASE
+  npm --no-git-tag-version version minor
+  sed -i "6i ## ${RELEASE}\n`changelog-maker`\n" CHANGES.md
+  # npm update
+  # npm test
+  # npm run coverage
+  # npm run docs
+  git commit -a -m "release ${RELEASE}"
+  git checkout $BRANCH
+  git merge release-$RELEASE
+  git tag $RELEASE
+  # git push $OPTION_REMOTE_REPO $RELEASE $BRANCH
+  # npm publish
+  npm --no-git-tag-version version minor
+  git commit -a -m "working on ${WORKING_ON}"
 }
 
 patch_release() {
@@ -84,13 +103,30 @@ patch_release() {
   BRANCH="v${MAJOR}.x"
   WORKING_ON="v${MAJOR}.${MINOR}.`expr ${PATCH} + 1`"
 
+  echo "Building release ${RELEASE}..."
+
   if $OPTION_VERBOSE 
     then
-      echo "RELEASE: ${RELEASE}"
-      echo "BRANCH: ${BRANCH}"
+      echo "RELEASE:      ${RELEASE}"
+      echo "BRANCH:       ${BRANCH}"
       echo "'WORKING_ON': ${WORKING_ON}"
   fi
 
+  git checkout -b release-$RELEASE
+  npm --no-git-tag-version version minor
+  sed -i "6i ## ${RELEASE}\n`changelog-maker`\n" CHANGES.md
+  # npm update
+  # npm test
+  # npm run coverage
+  # npm run docs
+  git commit -a -m "release ${RELEASE}"
+  git checkout $BRANCH
+  git merge release-$RELEASE
+  git tag $RELEASE
+  # git push $OPTION_REMOTE_REPO $RELEASE $BRANCH
+  # npm publish
+  npm --no-git-tag-version version minor
+  git commit -a -m "working on ${WORKING_ON}"
 }
 
 
@@ -132,8 +168,8 @@ done
 
 if $OPTION_VERBOSE
   then 
-    echo "REMOTE_REPO: $OPTION_REMOTE_REPO"
-    echo "VERSION: $VERSION"
+    echo "REMOTE_REPO:    $OPTION_REMOTE_REPO"
+    echo "VERSION:        $VERSION"
     echo "CURRENT_BRANCH: $CURRENT_BRANCH"
 fi
 

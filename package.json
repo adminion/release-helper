@@ -4,6 +4,9 @@
   "description": "A tool that assists in development based on master and major version stable release branches",
   "main": "release.js",
   "bin": "./release.js",
+  "scripts": {
+    "test": ".bin/test.sh master && .bin/test.sh major && .bin/test.sh patch"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adminion/release-helper.git"
