@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "A tool that assists in development based on master and major version stable release branches",
   "main": "release.js",
-  "bin": "./release.js",
+  "bin": "./release.sh",
   "scripts": {
-    "test": ".bin/test.sh master && .bin/test.sh major && .bin/test.sh patch"
+    "test": ".bin/test.sh major && .bin/test.sh minor  && .bin/test.sh patch"
   },
   "repository": {
     "type": "git",
