@@ -187,7 +187,7 @@ case "$releaseType" in
   minor )   if  `echo ${CURRENT_BRANCH} | egrep "${MAJOR_BRANCH_PATTERN}" 1>/dev/null 2>&1` 
               then minor_release 
             else 
-                echo 'Minor releases must be cut from a major branch!'
+                echo 'Minor releases must be cut from a major branch (i.e. v0.x)'
                 exit 1
             fi
             ;;
@@ -195,7 +195,7 @@ case "$releaseType" in
   patch )   if  `echo ${CURRENT_BRANCH} | egrep "${MAJOR_BRANCH_PATTERN}" 1>/dev/null 2>&1` 
               then patch_release 
             else 
-                echo 'patch releases must be cut from a major branch!'
+                echo 'Patch releases must be cut from a major branch (i.e. v0.x)'
                 exit 1
             fi
             ;;
