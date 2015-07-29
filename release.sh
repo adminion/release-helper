@@ -22,14 +22,14 @@ usage() {
   echo
   echo "Options:                                                                        "
   echo "  -h, --help                    Display this help message                       "
+  echo "  -m, --meta SUFFIX             Alias of -s, --suffix                           "
   echo "  -n, --no-act                  Don't actually do anything, just output what    "
-  echo "  -v, --verbose                 Enable verbose output                           "
-  echo "  -o, --output-only             Alias of -n, --no-act                           "
   echo "                                  would be done without this flag.              "
+  echo "  -o, --output-only             Alias of -n, --no-act                           "
   echo "  -p, --push-to-remote REMOTE   Push the new release to REMOTE                  "
   echo "  -r, --remote REMOTE           Alias of -p, --push-to-remote                   "
   echo "  -s, --suffix SUFFIX           Append SUFFIX to the release name (i.e. -alpha1)"
-  echo "  -m, --meta SUFFIX             Alias of -s, --suffix                           "
+  echo "  -v, --verbose                 Enable verbose output                           "
   echo
 }
 
