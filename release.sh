@@ -6,7 +6,7 @@ IFS=. read MAJOR MINOR PATCH <<< "${VERSION}"
 
 OPTION_NO_ACT=false
 OPTION_NPM_PUBLISH=false
-OPTION_REMOTE_REPO='adminion'
+OPTION_REMOTE_REPO='origin'
 OPTION_RELEASE_SUFFIX=
 OPTION_VERBOSE=false
 
@@ -25,7 +25,7 @@ usage() {
   echo "  -h, --help                  Display this help message                         "
   echo "  -m, --meta METADATA         Append METADATA to release version (i.e. -alpha1) "
   echo "  -n, --npm-publish           Publish to npm                                    "
-  echo "  -p, --push-remote REMOTE    Push the new release to REMOTE                    "
+  echo "  -p, --push-remote REMOTE    Push the new release to REMOTE (default: 'origin')"
   echo "  -r, --remote REMOTE         Alias of -p, --push-remote                        "
   echo "  -s, --suffix METADATA       Alias of -m, --meta                               "
   echo "  -v, --verbose               Enable verbose output                             "
