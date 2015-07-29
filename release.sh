@@ -58,6 +58,7 @@ major_release() {
   git commit -a -m "release ${RELEASE}"
   git checkout master
   git merge release-$RELEASE
+  git branch -d release-$RELEASE
   git tag $RELEASE
   git branch $BRANCH
   # git push $OPTION_REMOTE_REPO $RELEASE $BRANCH
@@ -90,10 +91,11 @@ minor_release() {
   git commit -a -m "release ${RELEASE}"
   git checkout $BRANCH
   git merge release-$RELEASE
+  git branch -d release-$RELEASE
   git tag $RELEASE
   # git push $OPTION_REMOTE_REPO $RELEASE $BRANCH
   # npm publish
-  npm --no-git-tag-version version minor
+  npm --no-git-tag-version version patch
   git commit -a -m "working on ${WORKING_ON}"
 }
 
@@ -113,7 +115,6 @@ patch_release() {
   fi
 
   git checkout -b release-$RELEASE
-  npm --no-git-tag-version version minor
   sed -i "6i ## ${RELEASE}\n`changelog-maker`\n" CHANGES.md
   # npm update
   # npm test
@@ -122,10 +123,11 @@ patch_release() {
   git commit -a -m "release ${RELEASE}"
   git checkout $BRANCH
   git merge release-$RELEASE
+  git branch -d release-$RELEASE
   git tag $RELEASE
   # git push $OPTION_REMOTE_REPO $RELEASE $BRANCH
   # npm publish
-  npm --no-git-tag-version version minor
+  npm --no-git-tag-version version patch
   git commit -a -m "working on ${WORKING_ON}"
 }
 
