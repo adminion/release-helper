@@ -70,7 +70,7 @@ major_release() {
 minor_release() {
   RELEASE="v$MAJOR.`expr $MINOR + 1`.0"
   BRANCH="v${MAJOR}.x"
-  WORKING_ON="V$MAJOR.`expr $MINOR + 1`.1"
+  WORKING_ON="v$MAJOR.`expr $MINOR + 1`.1"
 
   echo "Building release ${RELEASE}..."
 
