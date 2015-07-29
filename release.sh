@@ -5,6 +5,7 @@ VERSION=`node -e "console.log(require('./package').version);"`
 IFS=. read MAJOR MINOR PATCH <<< "${VERSION}"
 
 OPTION_NO_ACT=false
+OPTION_NPM_PUBLISH=false
 OPTION_REMOTE_REPO='adminion'
 OPTION_RELEASE_SUFFIX=
 OPTION_VERBOSE=false
@@ -21,15 +22,13 @@ usage() {
   echo "Usage: release-helper [ [ --option-1 [...]] ]  [ major | minor | (patch) ]      "
   echo
   echo "Options:                                                                        "
-  echo "  -h, --help                    Display this help message                       "
-  echo "  -m, --meta SUFFIX             Alias of -s, --suffix                           "
-  echo "  -n, --no-act                  Don't actually do anything, just output what    "
-  echo "                                  would be done without this flag.              "
-  echo "  -o, --output-only             Alias of -n, --no-act                           "
-  echo "  -p, --push-to-remote REMOTE   Push the new release to REMOTE                  "
-  echo "  -r, --remote REMOTE           Alias of -p, --push-to-remote                   "
-  echo "  -s, --suffix SUFFIX           Append SUFFIX to the release name (i.e. -alpha1)"
-  echo "  -v, --verbose                 Enable verbose output                           "
+  echo "  -h, --help                  Display this help message                         "
+  echo "  -m, --meta METADATA         Append METADATA to release version (i.e. -alpha1) "
+  echo "  -n, --npm-publish           Publish to npm                                    "
+  echo "  -p, --push-remote REMOTE    Push the new release to REMOTE                    "
+  echo "  -r, --remote REMOTE         Alias of -p, --push-remote                        "
+  echo "  -s, --suffix METADATA       Alias of -m, --meta                               "
+  echo "  -v, --verbose               Enable verbose output                             "
   echo
 }
 
@@ -61,7 +60,11 @@ major_release() {
   git tag $RELEASE
   git branch $BRANCH
   git push $OPTION_REMOTE_REPO $RELEASE $BRANCH
-  # npm publish
+
+  if $OPTION_NPM_PUBLISH
+    then npm publish
+  fi
+
   npm --no-git-tag-version version major
   git commit -a -m "working on ${WORKING_ON}"
 }
@@ -93,7 +96,11 @@ minor_release() {
   git branch -d release-$RELEASE
   git tag $RELEASE
   git push $OPTION_REMOTE_REPO $RELEASE $BRANCH
-  # npm publish
+  
+  if $OPTION_NPM_PUBLISH
+    then npm publish
+  fi
+  
   npm --no-git-tag-version version patch
   git commit -a -m "working on ${WORKING_ON}"
 }
@@ -125,7 +132,11 @@ patch_release() {
   git branch -d release-$RELEASE
   git tag $RELEASE
   git push $OPTION_REMOTE_REPO $RELEASE $BRANCH
-  # npm publish
+  
+  if $OPTION_NPM_PUBLISH
+    then npm publish
+  fi
+
   npm --no-git-tag-version version patch
   git commit -a -m "working on ${WORKING_ON}"
 }
@@ -136,9 +147,7 @@ patch_release() {
 # Loop until all parameters are used up
 while [ "$1" != "" ]; do
   case $1 in
-    -n | --no-act | \
-    -o | --output-only )      OPTION_NO_ACT=1
-                              ;;
+    -n | --npm-publish )      OPTION_NPM_PUBLISH=true
     -r | --remote | \
     -p | --push-to-remote )   shift
                               OPTION_REMOTE_REPO=$1
